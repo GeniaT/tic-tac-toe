@@ -21,6 +21,12 @@ describe('<Board />', () => {
     expect(wrapper.state('currentlyPlaying')).toEqual('X');
   });
 
+  it('should set the game status to "on" when game starts', () => {
+    const wrapper = shallow(<Board />);
+
+    expect(wrapper.state('gameStatus')).toEqual('on');
+  });
+
   it('should render the Board component with 9 Tiles', () => {
     const wrapper = shallow(<Board />);
 
@@ -114,7 +120,8 @@ describe('<Board />', () => {
 
     expect(instance.state).toEqual({
         tiles: [null,null,'O',null,null,null,null,null,null],
-        currentlyPlaying: 'X'
+        currentlyPlaying: 'X',
+        gameStatus: 'on'
     })
   });
 
@@ -124,16 +131,15 @@ describe('<Board />', () => {
     
     wrapper.setState({
         tiles: ['X','O',null,'O','X','X','O','X','O'],
-        currentlyPlaying: 'O'
+        currentlyPlaying: 'O',
+        gameStatus: 'on'
     });
     wrapper.find('.tiles').children().at(2).simulate('click')
 
     expect(instance.state).toEqual({
         tiles: ['X','O','O','O','X','X','O','X','O'],
-        currentlyPlaying: 'O'
+        currentlyPlaying: 'O',
+        gameStatus: "it's a tie!"
     })
   });
-
 });
-
-// tiles: ['X','O','O','O','X','X','O','X','O'], // tie grid

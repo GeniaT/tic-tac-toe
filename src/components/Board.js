@@ -6,25 +6,30 @@ export default class Board extends Component {
         super(props)
         this.state = {
             tiles: [null,null,null,null,null,null,null,null,null],
-            currentlyPlaying: 'X'
+            currentlyPlaying: 'X',
+            gameStatus: 'on'
         }
         this.handleClick = this.handleClick.bind(this)
     }
 
     handleClick(e) {
         const { tiles, currentlyPlaying } = this.state;    
-        if (tiles[e.target.id] == null) {
+        if (tiles[e.target.id] == null && this.state.gameStatus === 'on') {
             tiles[e.target.id] = currentlyPlaying === "X" ? "X" : "O";
-            if (this.checkWin(currentlyPlaying) || tiles.filter((x) => x != null).length === 9) {
-                return this.endGame();
+            this.setState({...this.state, tiles})
+
+            if (this.checkWin(currentlyPlaying) ) {
+                return this.endGame(currentlyPlaying + " won the game");
+            } else if (tiles.filter((x) => x != null).length === 9) {
+                return this.endGame("it's a tie!");
             }
+
             const nextToPlay = currentlyPlaying === "X" ? "O" : "X";
             this.setState({
               tiles,
               currentlyPlaying: nextToPlay
             });
         }
-
       }
 
       checkWin(player) {
@@ -39,8 +44,8 @@ export default class Board extends Component {
             return result;
         }
       
-        endGame() {
-            console.log("GAME OVER!")
+        endGame(result) {
+            this.setState({...this.state, gameStatus: result})
         }
 
     render() {
@@ -50,6 +55,7 @@ export default class Board extends Component {
                 <div className='tiles' >
                     {this.state.tiles.map((tile, index) => <Tile id={index} key={index} label={tile} handleClick={this.handleClick}/>)}
                 </div>
+                {this.state.gameStatus !== 'on' ? <div><p>{this.state.gameStatus}</p></div> : null}
             </div>
         )
     }
