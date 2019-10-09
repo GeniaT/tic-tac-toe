@@ -67,5 +67,5 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-### A few dev decisions reason
+### A few dev decisions explained
 - when rendering the 9 Tiles in <Board />, it's better to not use index as a key but a UUID but since a tile is never added or removed, we don't risk to have the key messed up, uuid seemed overkill.

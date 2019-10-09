@@ -15,7 +15,7 @@ export default class Board extends Component {
             <div>
                 <h1>Tic Tac Toe game !</h1>
                 <div className='tiles' >
-                    {this.state.tiles.map((tile, index) => <Tile key={index}/>)}
+                    {this.state.tiles.map((tile, index) => <Tile key={index} label={tile}/>)}
                 </div>
             </div>
         )

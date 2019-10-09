@@ -29,4 +29,14 @@ describe('<Board />', () => {
     wrapper.find('.tiles').children().forEach((tile) => keys.push(tile.key()))
     expect(new Set(keys).size).toEqual(9);
   });
+
+  it('should render 9 Tiles with displayed X or O from the Board state', () => {
+    const wrapper = mount(<Board />);
+    wrapper.setState({
+      tiles: ['X',null,null,null,'X',null,null,null,'O']
+    });
+    expect(wrapper.find('.tiles').children().at(0).text()).toEqual('X');
+    expect(wrapper.find('.tiles').children().at(2).text()).toEqual('');
+    expect(wrapper.find('.tiles').children().at(8).text()).toEqual('O');
+  });
 });
