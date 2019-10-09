@@ -39,4 +39,25 @@ describe('<Board />', () => {
     expect(wrapper.find('.tiles').children().at(2).text()).toEqual('');
     expect(wrapper.find('.tiles').children().at(8).text()).toEqual('O');
   });
+
+  it('should prevent to replace an already clicked tile with a new label from Board currentlyPlaying info', () => {
+    const wrapper = mount(<Board />);
+    wrapper.setState({
+      tiles: ['X',null,null,null,null,null,null,null,null],
+      currentlyPlaying: 'O'
+    });
+    wrapper.find('.tiles').children().at(0).simulate('click')
+    expect(wrapper.find('.tiles').children().at(0).text()).toEqual('X');
+  });
+
+  it('should replace an unclicked tile with a new label from Board currentlyPlaying info', () => {
+    const wrapper = mount(<Board />);
+    wrapper.setState({
+      tiles: ['X',null,null,null,null,null,null,null,null],
+      currentlyPlaying: 'O'
+    });
+
+    wrapper.find('.tiles').children().at(1).simulate('click')
+    expect(wrapper.find('.tiles').children().at(1).text()).toEqual('O');
+  });
 });
