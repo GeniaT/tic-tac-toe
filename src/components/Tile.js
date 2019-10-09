@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-export default class Tile extends Component {
-    render() {
-        return (
-            <div onClick={this.props.handleClick} id={this.props.id} className="tile">{this.props.label}</div>
-        )
-    }
+function Tile(props) {
+    return <div onClick={props.handleClick} id={props.id} className="tile">{props.label}</div>
 }
+  
+export default Tile;

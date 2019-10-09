@@ -1,9 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from '../App';
+import { shallow } from 'enzyme';
+import App from '../components/App';
+import Board from '../components/Board';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe('<Board />', () => {
+  it('should render the App component with Board inside it', () => {
+    const wrapper = shallow(<App />);
+
+    expect(wrapper.contains(<Board />)).toEqual(true);
+  });
 });

@@ -18,7 +18,7 @@ describe('<Board />', () => {
   it('should set the player to X when game starts', () => {
     const wrapper = shallow(<Board />);
 
-    expect(wrapper.state('currentlyPlaying')).toEqual('X');
+    expect(wrapper.state('currentPlayer')).toEqual('X');
   });
 
   it('should set the game status to "on" when game starts', () => {
@@ -54,24 +54,24 @@ describe('<Board />', () => {
     expect(wrapper.find('.tiles').children().at(8).text()).toEqual('O');
   });
 
-  it('should prevent to replace an already clicked tile with a new label from Board currentlyPlaying info', () => {
+  it('should prevent to replace an already clicked tile with a new label from Board currentPlayer info', () => {
     const wrapper = mount(<Board />);
 
     wrapper.setState({
       tiles: ['X',null,null,null,null,null,null,null,null],
-      currentlyPlaying: 'O'
+      currentPlayer: 'O'
     });
     wrapper.find('.tiles').children().at(0).simulate('click')
 
     expect(wrapper.find('.tiles').children().at(0).text()).toEqual('X');
   });
 
-  it('should replace an unclicked tile with a new label from Board currentlyPlaying info', () => {
+  it('should replace an unclicked tile with a new label from Board currentPlayer info', () => {
     const wrapper = mount(<Board />);
 
     wrapper.setState({
       tiles: ['X',null,null,null,null,null,null,null,null],
-      currentlyPlaying: 'O'
+      currentPlayer: 'O'
     });
     wrapper.find('.tiles').children().at(1).simulate('click')
 
@@ -115,12 +115,12 @@ describe('<Board />', () => {
     const wrapper = mount(<Board />);
     const instance = wrapper.instance();
 
-    wrapper.setState({currentlyPlaying: 'O'});
+    wrapper.setState({currentPlayer: 'O'});
     wrapper.find('.tiles').children().at(2).simulate('click')
 
     expect(instance.state).toEqual({
         tiles: [null,null,'O',null,null,null,null,null,null],
-        currentlyPlaying: 'X',
+        currentPlayer: 'X',
         gameStatus: 'on'
     })
   });
@@ -131,15 +131,15 @@ describe('<Board />', () => {
     
     wrapper.setState({
         tiles: ['X','O',null,'O','X','X','O','X','O'],
-        currentlyPlaying: 'O',
+        currentPlayer: 'O',
         gameStatus: 'on'
     });
     wrapper.find('.tiles').children().at(2).simulate('click')
 
     expect(instance.state).toEqual({
         tiles: ['X','O','O','O','X','X','O','X','O'],
-        currentlyPlaying: 'O',
-        gameStatus: "it's a tie!"
+        currentPlayer: 'O',
+        gameStatus: "It's a tie!"
     })
   });
 });

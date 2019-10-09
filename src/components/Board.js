@@ -1,52 +1,80 @@
 import React, { Component } from 'react';
 import Tile from './Tile';
-
-export default class Board extends Component {
+import  { allwins } from '../constants';
+class Board extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tiles: [null,null,null,null,null,null,null,null,null],
-            currentlyPlaying: 'X',
+            tiles: new Array(9).fill(null),
+            currentPlayer: 'X',
             gameStatus: 'on'
         }
-        this.handleClick = this.handleClick.bind(this)
+        this.handleClick = this.handleClick.bind(this);
+        this.restart = this.restart.bind(this);
     }
 
     handleClick(e) {
-        const { tiles, currentlyPlaying } = this.state;    
-        if (tiles[e.target.id] == null && this.state.gameStatus === 'on') {
-            tiles[e.target.id] = currentlyPlaying === "X" ? "X" : "O";
-            this.setState({...this.state, tiles})
+        const { tiles, currentPlayer } = this.state;  
+        const { id } = e.target;  
+        if (tiles[id] == null && this.state.gameStatus === 'on') {
+            this.labelTile(currentPlayer, id);
 
-            if (this.checkWin(currentlyPlaying) ) {
-                return this.endGame(currentlyPlaying + " won the game");
-            } else if (tiles.filter((x) => x != null).length === 9) {
-                return this.endGame("it's a tie!");
-            }
-
-            const nextToPlay = currentlyPlaying === "X" ? "O" : "X";
-            this.setState({
-              tiles,
-              currentlyPlaying: nextToPlay
-            });
+            const gameStatus = this.getGameStatus(currentPlayer);
+            if (gameStatus !== 'on') {
+                return this.endGame(gameStatus);
+            } 
+            this.setNextPlayer(currentPlayer);
         }
-      }
+    }
 
-      checkWin(player) {
+    getGameStatus(currentPlayer) {
+        if (this.checkWin(currentPlayer)) {
+            return currentPlayer + ' won the game';
+        } else if (this.allTilesPlayed()) {
+            return "It's a tie!";
+        }
+        return "on";
+        
+    }
+
+    allTilesPlayed() {
+        return this.state.tiles.filter(x => x != null).length === 9;
+    }
+
+    labelTile(player, tileId) {
+        const { tiles } = this.state;    
+        tiles[tileId] = player;
+        this.setState({...this.state, tiles})
+    }
+
+    setNextPlayer(currentPlayer) {
+        const nextToPlay = currentPlayer === "X" ? "O" : "X";
+        this.setState({
+            ...this.state,
+            currentPlayer: nextToPlay
+        });
+    }
+
+    checkWin(player) {
         const { tiles } = this.state;
-        const horizontal = [0,3,6].map(i => [i,i+1,i+2]);
-        const vertical = [0,1,2].map(i => [i,i+3,i+6]);
-        const diagonal = [[0,4,8],[2,4,6]];
-        const allwins = [].concat(horizontal).concat(vertical).concat(diagonal);
         const result = allwins.some(indices => { 
-            return tiles[indices[0]] === player && tiles[indices[1]] === player && tiles[indices[2]] === player
-        })
-            return result;
-        }
+            return tiles[indices[0]] === player && tiles[indices[1]] === player && tiles[indices[2]] === player;
+        });
+        return result;
+    }
       
-        endGame(result) {
-            this.setState({...this.state, gameStatus: result})
-        }
+    endGame(result) {
+        this.setState({...this.state, gameStatus: result});
+    }
+
+    restart() {
+        console.log(this)
+        this.setState({...this.state, 
+            tiles: new Array(9).fill(null),
+            currentPlayer: 'X',
+            gameStatus: 'on'
+        })
+    }
 
     render() {
         return (
@@ -55,8 +83,10 @@ export default class Board extends Component {
                 <div className='tiles' >
                     {this.state.tiles.map((tile, index) => <Tile id={index} key={index} label={tile} handleClick={this.handleClick}/>)}
                 </div>
-                {this.state.gameStatus !== 'on' ? <div><p>{this.state.gameStatus}</p></div> : null}
+                {this.state.gameStatus !== 'on' ? <div><p>{this.state.gameStatus}</p><button onClick={this.restart}>Restart</button></div> : null}
             </div>
         )
     }
 }
+
+export default Board;
