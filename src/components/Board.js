@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 export default class Board extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            tiles: [null,null,null,null,null,null,null,null,null],
+            currentlyPlaying: 'X'
+        }
+    }
+
     render() {
         return (
             <div>
