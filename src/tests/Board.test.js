@@ -142,4 +142,45 @@ describe('<Board />', () => {
         gameStatus: "It's a tie!"
     })
   });
+
+  it('should show restart button when the game is over', () => {
+    const wrapper = mount(<Board />);
+    wrapper.setState({
+      tiles: ['X','O','O','O','X','X','O','X','O'],
+      currentPlayer: 'O',
+      gameStatus: "It's a tie!"
+    });
+    expect(wrapper.find(".restart").html()).toEqual('<button class="restart">Restart</button>');
+  });
+
+  it('should reset the game state on restart button click', () => {
+    const wrapper = mount(<Board />);
+
+    wrapper.setState({
+      tiles: ['X','O','O','O','X','X','O','X','O'],
+      currentPlayer: 'O',
+      gameStatus: "It's a tie!"
+    });
+    wrapper.find(".restart").simulate('click');
+
+    expect(wrapper.state()).toEqual({
+      tiles: [null,null,null,null,null,null,null,null,null],
+      currentPlayer: 'X',
+      gameStatus: "on"
+    })
+
+  });
+
+  it('should remove the restart button on restart button click', () => {
+    const wrapper = mount(<Board />);
+
+    wrapper.setState({
+      tiles: ['X','O','O','O','X','X','O','X','O'],
+      currentPlayer: 'O',
+      gameStatus: "It's a tie!"
+    });
+    wrapper.find(".restart").simulate('click');
+
+    expect(wrapper.find(".restart")).toEqual({});
+  });
 });

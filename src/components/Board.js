@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
+import '../styles/Board.css';
 import Tile from './Tile';
 import  { allwins } from '../constants';
 class Board extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            tiles: new Array(9).fill(null),
-            currentPlayer: 'X',
-            gameStatus: 'on'
-        }
-        this.handleClick = this.handleClick.bind(this);
-        this.restart = this.restart.bind(this);
+    state = {
+        tiles: new Array(9).fill(null),
+        currentPlayer: 'X',
+        gameStatus: 'on'
     }
 
-    handleClick(e) {
+    handleClick = (e) => {
         const { tiles, currentPlayer } = this.state;  
         const { id } = e.target;  
         if (tiles[id] == null && this.state.gameStatus === 'on') {
@@ -67,8 +63,7 @@ class Board extends Component {
         this.setState({...this.state, gameStatus: result});
     }
 
-    restart() {
-        console.log(this)
+    restart = () => {
         this.setState({...this.state, 
             tiles: new Array(9).fill(null),
             currentPlayer: 'X',
@@ -83,7 +78,7 @@ class Board extends Component {
                 <div className='tiles' >
                     {this.state.tiles.map((tile, index) => <Tile id={index} key={index} label={tile} handleClick={this.handleClick}/>)}
                 </div>
-                {this.state.gameStatus !== 'on' ? <div><p>{this.state.gameStatus}</p><button onClick={this.restart}>Restart</button></div> : null}
+                {this.state.gameStatus !== 'on' ? <div><p>{this.state.gameStatus}</p><button className='restart' onClick={this.restart}>Restart</button></div> : null}
             </div>
         )
     }
