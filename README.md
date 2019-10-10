@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Before seeing the app on your screen, please clone this repo localy by using `git clone https://github.com/GeniaT/tic-tac-toe.git`
-Once done, move to the cloned repo by `cd tic-tac-toe` and finally run `npm install`.
+Before seeing the app on your screen, please clone this repo localy by using `git clone https://github.com/GeniaT/2019_DEV_203_tic-tac-toe.git`
+Once done, move to the cloned repo by `cd 2019_DEV_203_tic-tac-toe` and finally run `npm install`.
 
 ## Available Scripts
 
